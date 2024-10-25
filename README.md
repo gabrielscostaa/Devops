@@ -1,107 +1,81 @@
-# Nginx Boilerplate 
+# Projeto de Monitoramento
 
-[![Chat](https://img.shields.io/gitter/room/gitterHQ/gitter.svg)](https://gitter.im/nginx-boilerplate/nginx-boilerplate)
+Este projeto configura uma aplicação de monitoramento usando Nginx, PHP, Prometheus e Grafana. Este README orienta sobre como clonar o repositório, configurar o ambiente e implementar funcionalidades como backup automatizado e CI/CD.
 
-Awesome Nginx configuration template and a set of handy must-have snippets.
+## Sumário
 
-## Features
- * Expressive include-based config
- * Optimized defaults
- * Easy PHP integration
- * Connections/requests rate limiting and throttling
- * [A-grade](https://www.ssllabs.com/ssltest/analyze.html) SSL setup
- * FastCGI response caching
- * Various predefined locations
- * Advanced logging
- * SEO
- * Docker/Swarm ready
+1. [Clonando o Repositório](#clonando-o-repositório)
+2. [Configuração do Ambiente](#configuração-do-ambiente)
+3. [Backup Automatizado](#backup-automatizado)
+4. [Pipeline de CI/CD Integrado](#pipeline-de-cicd-integrado)
+5. [Executando a Aplicação](#executando-a-aplicação)
 
-## Requirements
- * `Docker` >= `1.13`
- * `docker-compose` >= `3.1`
- 
-Configs themselves depend on `Nginx` >= `1.9.5`, if used separately.
- 
-## Usage
+## Clonando o Repositório
 
-### Abstract
-Nginx boilerplate builds on top of official [nginx](https://hub.docker.com/_/nginx/) and [php](https://hub.docker.com/_/php/) alpine Docker images.
-Additionally two basic docker-compose configs are provided: `docker-compose.yml` and `docker-compose.override.yml`.
-The first contains the base/production version of the docker run config while the second transparently extends it to provide extra features for local development.
-Only `docker-compose.yml` should be used in production.
-
-`docker-compose.override.yml` also contains an empty php fpm installation for the sake of the demo. Also because the boilerplate assumes the usage of php-fpm and fails to start otherwise.
-
-### Check it out
-
-You only need docker for this, simply run:
+Para clonar o repositório, utilize o seguinte comando no terminal:
 
 ```bash
-$ docker run --rm -it -p 80:80 -p 443:443 nginxboilerplate/nginx-boilerplate
-```
+git clone <URL_DO_REPOSITORIO>
+cd <NOME_DO_REPOSITORIO>
 
-Now open up [https://localhost/go/home](https://localhost/go/home) in your browser!
 
-And since you only run the nginx part there, there's no support for php.
-If you open the main page, which supposed to give you the `phpinfo` output, it's going to load for 10 secods and give you an error page.  
+Configuração do Ambiente
+Certifique-se de ter o Docker e o Docker Compose instalados.
+Verifique se o arquivo docker-compose.yml está configurado corretamente com os caminhos e parâmetros necessários.
+Backup Automatizado
+O script de Backup Automatizado foi implementado para facilitar a criação de cópias de segurança de arquivos ou diretórios importantes. Ele inclui a funcionalidade de rotação de backups para manter apenas os últimos 7 dias de backup, excluindo automaticamente os mais antigos.
 
-### Running it
+Como Funciona
+Configuração de Diretórios:
 
-For a quick and dirty localhost setup run:
-```bash
-$ docker-compose up -d
-```
+Define o SOURCE_DIR (diretório ou arquivo a ser feito backup) e BACKUP_DIR (local onde os backups serão armazenados).
+Criação do Backup:
 
-By default the bundled nginx image is provided with self-signed wildcard certificate for *.localhost, so you will have to instruct your browser to trust it.
+Utiliza o comando tar para compactar o conteúdo do SOURCE_DIR em um arquivo .tar.gz, com a data atual no nome do arquivo.
+Rotação de Backups:
 
-### Reloading
-To not have to restart containers each time you modify your configs, you can simply run:
+O script usa o comando find para localizar backups no BACKUP_DIR que foram criados há mais de 7 dias e os exclui automaticamente.
+Mensagem de Conclusão:
 
-```bash
-$ docker-compose exec nginx nginx -s reload
-```
+O script informa ao usuário que o backup foi criado com sucesso e que os backups antigos foram removidos, se necessário.
+Como Usar
 
-### Logs
-By default a new `logs/` directory should be created in the project directory, that directly maps to the nginx logs directory. 
+Para executar o script de backup, utilize o seguinte comando:
 
-#### Docker swarm
-To run in Docker swarm first make sure your Docker setup is in swarm mode:
+ bash backup.sh
 
-```bash
-$ docker swarm init
-```
+Certifique-se de que o script tem permissões de execução:
 
-First of all you need to define your domain ssl certificate and key as a swarm secret:
 
-```bash
-$ docker secret create cert.crt your_certificate.crt
-$ docker secret create cert.key your_certificate_key.key
-```
+Pipeline de CI/CD Integrado
+Para integrar um pipeline de CI/CD ao seu projeto, siga os passos abaixo:
 
-Now to start or update nginx (and php) services in the swarm run:
+Instalação do Runner:
 
-```bash
-$ docker stack deploy -c docker-compose.yml --with-registry-auth --prune app
-```
+Instale um Runner do GitHub ou do GitLab em uma máquina local ou em uma nuvem de sua escolha. Este Runner será responsável pela execução dos jobs do pipeline.
+Para o GitHub, você pode seguir esta documentação.
+Para o GitLab, consulte a documentação oficial.
+Configuração do Pipeline:
 
-To see nginx logs run:
-```bash
-$ docker service logs -f app_nginx
-```
+Crie um arquivo .gitlab-ci.yml ou .github/workflows/ci.yml no diretório raiz do seu repositório, dependendo da plataforma utilizada. Este arquivo deve definir os jobs e as etapas que deseja automatizar, como testes, construção e deploy da aplicação.
 
-To scale services:
-```bash
-$ docker service scale app_nginx=2 app_fpm=10
-```
+Executando o Pipeline:
 
-Now you can refresh the page a couple of times and notice different host names that your requests land on.
+Após configurar o Runner e o arquivo do pipeline, cada push para o repositório iniciará automaticamente a execução do pipeline, permitindo que você acompanhe o status e os resultados diretamente na interface do GitHub ou GitLab.
 
-### Customization
+Executando a Aplicação
 
-The main virtual host definition is located at `servers/main.conf`.
-Probably the best way to work with the repo is by cloning it and hooking up docker hub to automatically build a new image whenever there's new code.
- 
+Para iniciar a aplicação, execute o seguinte comando no diretório onde o arquivo docker-compose.yml está localizado:
 
-## If something doesn't work
- * Check error and access logs
- * [Create an issue](https://github.com/nginx-boilerplate/nginx-boilerplate/issues/new) on the project's github page
+docker-compose up -d
+
+Isso iniciará todos os serviços definidos no arquivo Docker Compose em segundo plano. Você pode acessar os serviços nos seguintes endereços:
+
+Nginx: http://localhost
+Grafana: http://localhost:3000 (usuário: admin, senha: sua_senha)
+Prometheus: http://localhost:9090
+
+
+---
+
+Você pode copiar e colar esse conteúdo diretamente no seu repositório no GitHub. Se precisar de mais ajustes ou informações, fique à vontade para pedir!

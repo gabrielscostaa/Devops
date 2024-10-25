@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 15s  # Intervalo de coleta de métricas
+
+scrape_configs:
+  - job_name: 'nginx'
+    static_configs:
+      - targets: ['nginx:80']  # O serviço Nginx para coletar métricas
+
+  - job_name: 'your_app'
+    static_configs:
+      - targets: ['app:3000']  # O serviço do seu aplicativo Node.js para coletar métricas
