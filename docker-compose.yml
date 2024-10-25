@@ -1,0 +1,26 @@
+services:
+  nginx:
+    hostname: ${HOST_NAME}
+    image: nginxboilerplate/nginx-boilerplate
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    secrets:
+      - cert.crt
+      - cert.key
+    volumes:
+      - ./path/to/your/nginx.conf:/etc/nginx/nginx.conf  # Adicione seu arquivo de configuração do Nginx
+      - ./path/to/your/php:/var/www/html  # Monte seu diretório de arquivos PHP
+
+  fpm:
+    image: umkus/nginx-boilerplate-php
+    restart: always
+    volumes:
+      - ./path/to/your/php:/var/www/html  # Monte o mesmo diretório de arquivos PHP
+
+secrets:
+  cert.crt:
+    external: true
+  cert.key:
+    external: true
