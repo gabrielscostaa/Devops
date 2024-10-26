@@ -14,18 +14,22 @@ Este projeto configura uma aplicação de monitoramento usando Nginx, PHP, Prome
 
 Para clonar o repositório, utilize o seguinte comando no terminal:
 
-```bash
-git clone <URL_DO_REPOSITORIO>
-cd <NOME_DO_REPOSITORIO>
+```
+git clone https://github.com/gabrielscostaa/Devops
 
+````
 
-Configuração do Ambiente
-Certifique-se de ter o Docker e o Docker Compose instalados.
+##Configuração do Ambiente
+
+#Certifique-se de ter o Docker e o Docker Compose instalados.
+
 Verifique se o arquivo docker-compose.yml está configurado corretamente com os caminhos e parâmetros necessários.
+
 Backup Automatizado
+
 O script de Backup Automatizado foi implementado para facilitar a criação de cópias de segurança de arquivos ou diretórios importantes. Ele inclui a funcionalidade de rotação de backups para manter apenas os últimos 7 dias de backup, excluindo automaticamente os mais antigos.
 
-Como Funciona
+##Como Funciona
 Configuração de Diretórios:
 
 Define o SOURCE_DIR (diretório ou arquivo a ser feito backup) e BACKUP_DIR (local onde os backups serão armazenados).
@@ -46,6 +50,8 @@ Para executar o script de backup, utilize o seguinte comando:
 
 Certifique-se de que o script tem permissões de execução:
 
+chmod +x backup.sh
+
 
 Pipeline de CI/CD Integrado
 Para integrar um pipeline de CI/CD ao seu projeto, siga os passos abaixo:
@@ -54,26 +60,18 @@ Instalação do Runner:
 
 Instale um Runner do GitHub ou do GitLab em uma máquina local ou em uma nuvem de sua escolha. Este Runner será responsável pela execução dos jobs do pipeline.
 Para o GitHub, você pode seguir esta documentação.
-Para o GitLab, consulte a documentação oficial.
-Configuração do Pipeline:
-
-Crie um arquivo .gitlab-ci.yml ou .github/workflows/ci.yml no diretório raiz do seu repositório, dependendo da plataforma utilizada. Este arquivo deve definir os jobs e as etapas que deseja automatizar, como testes, construção e deploy da aplicação.
-
-Executando o Pipeline:
-
-Após configurar o Runner e o arquivo do pipeline, cada push para o repositório iniciará automaticamente a execução do pipeline, permitindo que você acompanhe o status e os resultados diretamente na interface do GitHub ou GitLab.
 
 Executando a Aplicação
 
 Para iniciar a aplicação, execute o seguinte comando no diretório onde o arquivo docker-compose.yml está localizado:
-
+````
 docker-compose up -d
-
+````
 Isso iniciará todos os serviços definidos no arquivo Docker Compose em segundo plano. Você pode acessar os serviços nos seguintes endereços:
 
-Nginx: http://localhost
-Grafana: http://localhost:3000 (usuário: admin, senha: sua_senha)
-Prometheus: http://localhost:9090
+Nginx: ````http://localhost````
+Grafana:```` http://localhost:3000 ````(usuário: admin, senha: sua_senha)
+Prometheus: ````http://localhost:9090````
 
 
 ---
