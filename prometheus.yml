@@ -4,8 +4,12 @@ global:
 scrape_configs:
   - job_name: 'nginx'
     static_configs:
-      - targets: ['nginx:80']  # O serviço Nginx para coletar métricas
+      - targets: ['localhost:80']  # O serviço Nginx para coletar métricas
 
   - job_name: 'your_app'
     static_configs:
-      - targets: ['app:3000']  # O serviço do seu aplicativo Node.js para coletar métricas
+      - targets: ['localhost:3000']  # O serviço do seu aplicativo Node.js para coletar métricas
+
+  - job_name: 'node_exporter'
+    static_configs:
+      - targets: ['localhost:9100']  # Substitua 'node_exporter' pelo nome do serviço do Node Exporter na rede Docker
