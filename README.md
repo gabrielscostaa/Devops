@@ -50,7 +50,7 @@ Para executar o script de backup, utilize o seguinte comando:
 
 Certifique-se de que o script tem permissões de execução:
 
-chmod +x backup.sh
+````chmod +x backup.sh````
 
 
 ##Pipeline de CI/CD Integrado
