@@ -53,14 +53,13 @@ Certifique-se de que o script tem permissões de execução:
 chmod +x backup.sh
 
 
-Pipeline de CI/CD Integrado
-Para integrar um pipeline de CI/CD ao seu projeto, siga os passos abaixo:
+##Pipeline de CI/CD Integrado
 
-Instalação do Runner:
+O Pipeline de CI/CD (Integração Contínua/Entrega Contínua) é uma prática essencial para automação de desenvolvimento de software, permitindo a entrega rápida e confiável de aplicações. Um pipeline integrado abrange várias etapas fundamentais:
 
-Instale um Runner do GitHub ou do GitLab em uma máquina local ou em uma nuvem de sua escolha. Este Runner será responsável pela execução dos jobs do pipeline.
-Para o GitHub, você pode seguir esta documentação.
-
+1. Integração Contínua (CI)
+Build Automático: Sempre que uma nova alteração é feita no código (por exemplo, um commit), o pipeline automaticamente constrói a aplicação. Isso ajuda a detectar problemas de integração rapidamente.
+Testes Automatizados: Após a construção, o código passa por uma suíte de testes automatizados que verifica se as alterações não introduziram bugs.
 Executando a Aplicação
 
 Para iniciar a aplicação, execute o seguinte comando no diretório onde o arquivo docker-compose.yml está localizado:
